@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>{% block title %}管理员后台{% endblock %}</title>
+  <link rel="stylesheet" href="{{url_for('static',filename='admin/layui/css/layui.css')}}">
+  
+<script src="{{url_for('static',filename='admin/layui/layui.js')}}"></script>
+<script>
+//JavaScript代码区域
+layui.use('element', function(){
+  var element = layui.element;
+  var form = layui.form;
+});
+</script>
+  {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
+  {% block cheditor %}{% endblock %}
+</head>
+
+
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+
+   
+
+
+{% block body %}{% endblock %}
+
+</div>
+
+
+<style>
+  .alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+}
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid  #d6e9c6;
+    border-radius: 4px;
+}
+</style>
+</body>
+</html>
+
