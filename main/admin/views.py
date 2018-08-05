@@ -10,6 +10,8 @@ from main.extensions import executor
 from .fck import publish_cpu,onlinr_users
 from main.decorators import admin_required
 
+
+@admin_required
 @templated()
 def home():
 

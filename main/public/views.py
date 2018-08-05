@@ -11,26 +11,11 @@ from main.helpers import templated
 from log import logger
 
 
-# @rbac.allow(['anonymous'], methods=['GET'])
+@login_required
 @templated()
 def home():
     """Home page."""
-
-    # logger.info(u"index")
-
-
-    form = LoginForm(request.form)
-    # Handle logging in
-    if request.method == 'POST':
-        if form.validate_on_submit():
-            login_user(form.user)
-            flash('You are logged in.', 'success')
-            redirect_url = request.args.get('next') or url_for('user.members')
-            return redirect(redirect_url)
-        else:
-            flash_errors(form)
-
-    return dict(form=form)
+    return dict()
 
 
 @templated()
@@ -41,6 +26,7 @@ def login():
         if form.validate_on_submit():
             login_user(form.user)
             flash('You are logged in.', 'success')
+            logger.info('===ID:'+str(current_user.id)+'-login')
             redirect_url = request.args.get('next') or url_for('user.members')
             return redirect(redirect_url)
         else:
@@ -62,7 +48,7 @@ def register():
     """Register new user."""
     form = RegisterForm(request.form)
     if form.validate_on_submit():
-        User.create(username=form.username.data, email=form.email.data, password=form.password.data, active=True)
+        User.create(username=form.username.data,password=form.password.data, active=True)
         flash('Thank you for registering. You can now log in.', 'success')
         return redirect(url_for('public.home'))
     else:

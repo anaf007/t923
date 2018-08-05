@@ -24,3 +24,10 @@ redis_store = FlaskRedis()
 executor = ThreadPoolExecutor(2)
 # rbac = RBAC()
 principal = Principal()
+
+login_manager.session_protection = 'basic'
+
+#自动注册
+login_manager.login_view = 'public.login'
+login_manager.login_message = "请登录后访问该页面."
+login_manager.refresh_view = 'public.login'

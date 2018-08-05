@@ -6,7 +6,7 @@ from flask_sse import sse
 
 bp = Blueprint('public', __name__)
 
-from . import routes,views  # noqa
+from . import routes,views,routes  # noqa
 
 import random,string
 from datetime import datetime

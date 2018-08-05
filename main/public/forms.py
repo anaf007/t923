@@ -2,16 +2,21 @@
 """Public forms."""
 from flask_wtf import FlaskForm
 from wtforms import PasswordField, StringField
-from wtforms.validators import DataRequired
+
+from wtforms.validators import DataRequired, Email, EqualTo, Length,Required
 
 from main.user.models import User
+
+from flask import session
 
 
 class LoginForm(FlaskForm):
     """Login form."""
 
-    username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('用户名', validators=[DataRequired()])
+    password = PasswordField('密码', validators=[DataRequired()])
+    verification_code = StringField('验证码', validators=[DataRequired(), Length(4, 4, message=u'填写4位验证码')],render_kw={'style':'width:100px;'})
+
 
     def __init__(self, *args, **kwargs):
         """Create instance."""
@@ -24,17 +29,25 @@ class LoginForm(FlaskForm):
         if not initial_validation:
             return False
 
+        try:
+            if self.verification_code.data.upper() != session['verify']:
+                self.verification_code.errors.append(u'输入不错误')
+                return False
+        except Exception as e:
+            self.verification_code.errors.append(u'输入不错误')
+            return False
+
         self.user = User.query.filter_by(username=self.username.data).first()
         if not self.user:
-            self.username.errors.append('Unknown username')
+            self.username.errors.append('没有该用户')
             return False
 
         if not self.user.check_password(self.password.data):
-            self.password.errors.append('Invalid password')
+            self.password.errors.append('密码不正确')
             return False
 
         if not self.user.active:
-            self.username.errors.append('User not activated')
+            self.username.errors.append('该用户没有激活')
             return False
         return True
 

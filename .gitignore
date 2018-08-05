@@ -45,3 +45,8 @@ docs/_build
 venv/
 
 
+#log
+logging/
+logging/log-debug.log
+logging/log-info.log
+

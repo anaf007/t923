@@ -53,7 +53,7 @@ class DevConfig(Config):
     DB_NAME = 'dev.db'
     # Put the db file in project root
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:@127.0.0.1:3306/t923'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:123@127.0.0.1:3306/t923'
     DEBUG_TB_ENABLED = True
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
 
