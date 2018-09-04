@@ -8,7 +8,7 @@ class Config(object):
 
     # import os
     # os.urandom(24)
-    SECRET_KEY = os.environ.get('MAIN_SECRET', 'secret-key')  
+    SECRET_KEY = os.environ.get('MAIN_SECRET', 'secret-key')  or 'string1313'
 
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
@@ -22,10 +22,11 @@ class Config(object):
     JSON_AS_ASCII = False
 
     #回话超时登出 分钟
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=10)
+    PERMANENT_SESSION_LIFETIME = timedelta(minutes=100)
 
     #redis配置
     REDIS_URL = 'redis://:@localhost:6379'
+    #在线时间
     ONLINE_LAST_MINUTES = 10
 
     #验证码
@@ -53,7 +54,7 @@ class DevConfig(Config):
     DB_NAME = 'dev.db'
     # Put the db file in project root
     DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:123@127.0.0.1:3306/t923'
+    SQLALCHEMY_DATABASE_URI = 'mysql://root:@127.0.0.1:3306/t923'
     DEBUG_TB_ENABLED = True
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
 

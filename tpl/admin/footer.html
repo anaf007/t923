@@ -1,0 +1,20 @@
+  <div class="layui-footer">
+    <!-- 底部固定区域 -->
+    © anaf.cn - 后台管理系统,当前在线人数：<span id="online_count">{{online_count}}</span>人,CPU:<span id="use_cpu">{{cpu_percent}}</span>%
+  </div>
+
+  <script>
+    var source = new EventSource("{{ url_for('sse.stream',channel='admin') }}");
+source.addEventListener('online', function(event) {
+  var data = JSON.parse(event.data);
+  // alert(data.count);
+  online_count = document.getElementById('online_count').innerHTML;
+    document.getElementById('online_count').innerHTML = data.count;
+}, false);
+
+source.addEventListener('cpu_use', function(event) {
+
+  var data = JSON.parse(event.data);
+  document.getElementById('use_cpu').innerHTML = data.cpu_use;
+}, false);
+  </script>

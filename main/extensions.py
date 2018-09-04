@@ -12,6 +12,7 @@ from flask_redis import FlaskRedis
 from concurrent.futures import ThreadPoolExecutor
 # from flask_rbac import RBAC
 from flask_principal import Principal
+from flask_bootstrap import Bootstrap
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -24,6 +25,7 @@ redis_store = FlaskRedis()
 executor = ThreadPoolExecutor(2)
 # rbac = RBAC()
 principal = Principal()
+bootstrap = Bootstrap()
 
 login_manager.session_protection = 'basic'
 

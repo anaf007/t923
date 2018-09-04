@@ -39,20 +39,60 @@
   <div class="layui-body">
     <!-- 内容主体区域 -->
     <div style="padding: 15px;">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-    <div class="alert alert-success">
-    {% for category, message in messages %}
-      <p>{{message}}</p>
-    {%endfor%}
+
+      {%include 'admin/message.html'%} 
+
+
+<div class="layui-row layui-col-space15">
+
+  <div class="layui-col-md6">
+      <div class="layui-card">
+      <div class="layui-card-header layui-bg-blue">每月推荐人数排行</div>
+      <div class="layui-card-body" >
+        <div id="number_count" style="height:300px;">number_count</div>
+      </div>
     </div>
-    {% endif %}
-    {% endwith %}
+    </div>
+
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header layui-bg-red">每月总投资金额数排行</div>
+        <div class="layui-card-body">
+          <div id="price_count" style="height:300px;">price_count</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="layui-col-md6">
+      <div class="layui-card">
+      <div class="layui-card-header layui-bg-green">会员活跃排行</div>
+      <div class="layui-card-body">
+         <div id="login_count" style="height:300px;">login_count</div>
+      </div>
+    </div>
+    </div>
+
+    <div class="layui-col-md6">
+      <div class="layui-card">
+        <div class="layui-card-header">卡片面板</div>
+        <div class="layui-card-body">
+          卡片式面板面板通常用于非白色背景色的主体内<br>
+          从而映衬出边框投影
+        </div>
+      </div>
+
+    </div>
+
+
+</div>
+
+   
     
 
-    <h1>当前在线人数：<span id='online_count'>{{online_count}}</span> 人。</h1>
-    <h1>系统状态: <br>
-    <h2>CPU：{{psutil.cpu_count(logical=False)}}核心/{{psutil.cpu_count()}}线程/已使用<span id='use_cpu'>{{psutil.cpu_percent()}}</span>%</h2>
+    <!-- <h1><span id='online_count'></span> 人。</h1> -->
+    <!-- <h1>系统状态: <br> -->
+    <!-- <h2>CPU：{{psutil.cpu_count(logical=False)}}核心/{{psutil.cpu_count()}}线程/已使用<span id='use_cpu'></span>%</h2> -->
     <h2>内存：总共{{mem.total//1024//1024}}MB，已用:{{use_mem}}MB</h2>
     <h2>磁盘：total:{{disk.total//1000//1000//1000}}GB/
     used:{{disk.used//1000//1000//1000}}GB/
@@ -69,21 +109,103 @@
   {%include 'admin/footer.html'%}
   <script src="{{url_for('static',filename='404/js/jquery-1.7.2.min.js')}}"></script>
 
+<script src="{{ url_for('static', filename='admin/js/echarts.min.js') }}"></script>
+<div class="g-view" id="g-view" style="height:50%;">
+    
+</div>
+<script type="text/javascript">
+     var number_count = echarts.init(document.getElementById('number_count'));
+     var price_count = echarts.init(document.getElementById('price_count'));
+     var login_count = echarts.init(document.getElementById('login_count'));
+     
+     
+    number_count.showLoading();
+    price_count.showLoading();
+    login_count.showLoading();
+    //  // 异步加载数据
+    $.ajax({
+         type: "GET",
+         url: '{{url_for("public.home_json",_external=True)}}',
+         dataType: "json",
+         success: function(datas){
+            var data =datas.data;
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['张三', '李四', '王五', '赵六', '刘八', '宋九', '黄十']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [12, 2, 15, 8, 7, 11, 13],
+                    type: 'bar',
+                    label:{ normal:{show:true, position:'top'} } 
+                }]
 
-<script>
-    var source = new EventSource("{{ url_for('sse.stream',channel='admin') }}");
-source.addEventListener('online', function(event) {
-  var data = JSON.parse(event.data);
-  online_count = document.getElementById('online_count').innerHTML;
-    document.getElementById('online_count').innerHTML = data.count;
-}, false);
+            };
+            number_count.setOption(option);
+         }
+    });
 
-source.addEventListener('cpu_use', function(event) {
+    $.ajax({
+         type: "GET",
+         url: '{{url_for("public.home_json",_external=True)}}',
+         dataType: "json",
+         success: function(datas){
+            var data =datas.data;
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['张三', '李四', '王五', '赵六', '刘八', '宋九', '黄十']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [12, 2, 15, 8, 7, 11, 13],
+                    type: 'bar',
+                    label:{ normal:{show:true, position:'top'} } 
+                }]
 
-  var data = JSON.parse(event.data);
-  document.getElementById('use_cpu').innerHTML = data.cpu_use;
-}, false);
-  </script>
+            };
+            price_count.setOption(option);
+         }
+    });
+
+    $.ajax({
+         type: "GET",
+         url: '{{url_for("public.home_json",_external=True)}}',
+         dataType: "json",
+         success: function(datas){
+            var data =datas.data;
+            option = {
+                xAxis: {
+                    type: 'category',
+                    data: ['张三', '李四', '王五', '赵六', '刘八', '宋九', '黄十']
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [{
+                    data: [12, 2, 15, 8, 7, 11, 13],
+                    type: 'bar',
+                    label:{ normal:{show:true, position:'top'} } 
+                }]
+
+            };
+            login_count.setOption(option);
+         }
+    });
+
+    number_count.hideLoading(); 
+    price_count.hideLoading(); 
+    login_count.hideLoading(); 
+   
+ 
+
+</script>
+
 
 
 

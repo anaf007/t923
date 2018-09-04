@@ -1,0 +1,94 @@
+{% import "bootstrap/wtf.html" as wtf %} 
+{% extends "admin/bases.html" %}
+{% block title %}添加用户{% endblock %}
+{% block body %}
+
+
+
+{%include 'admin/top.html'%}
+  
+  <!-- 左侧内容 -->
+  <div class="layui-side layui-bg-black">
+
+ 
+     {%include 'admin/left_user.html'%}
+
+
+    
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+
+      {%include 'admin/message.html'%} 
+   
+
+   <form action="" method="post">
+     
+ {{ form.hidden_tag() }}
+
+      <div class="layui-form-item">
+        {{ form.user.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.user() }} 
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        {{ form.password.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.password() }} 
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        {{ form.confirm.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.confirm() }} 
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        {{ form.tuijianren.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.tuijianren() }} 
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        {{ form.baodan.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.baodan() }} 
+        </div>
+      </div>
+
+      <div class="layui-form-item">
+        {{ form.products.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.products() }} 
+        </div>
+      </div>
+
+
+    
+<input type="submit" name="submit" class="layui-btn layui-btn-fluid">
+
+   </form>
+
+
+    </div>
+  </div>
+  
+  {%include 'admin/footer.html'%}
+  <script src="{{url_for('static',filename='404/js/jquery-1.7.2.min.js')}}"></script>
+
+
+
+
+{% endblock %}
+
+
+
+
+

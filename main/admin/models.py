@@ -1,7 +1,7 @@
 #coding=utf-8
 
 from main.database import Column, Model, SurrogatePK, db, reference_col, relationship
-
+import datetime as dt
 
 class SysConfig(SurrogatePK, Model):
     """系统配置表 """
@@ -20,3 +20,31 @@ class SysConfig(SurrogatePK, Model):
         db.session.add(SysConfig(web_name='default'))
         db.session.commit()
 
+
+class Products(SurrogatePK, Model):
+
+    """产品列表 """    
+    __tablename__ = 'products'
+
+    name = Column(db.String(100))
+
+    price = Column(db.Numeric(15,2))
+
+    buys_id = relationship('ProductsBuys', backref='product')
+
+
+class ProductsBuys(SurrogatePK, Model):
+    """产品购买表"""
+
+    __tablename__ = 'products_buys'
+
+    users_id = reference_col('users')
+    products_id = reference_col('products')
+    #购买时间
+    created_at = Column(db.DateTime, nullable=False, default=dt.datetime.now)
+    
+
+
+
+        
+        

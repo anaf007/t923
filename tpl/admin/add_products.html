@@ -1,0 +1,88 @@
+{% import "bootstrap/wtf.html" as wtf %} 
+{% extends "admin/bases.html" %}
+{% block title %}添加产品{% endblock %}
+{% block body %}
+
+
+
+{%include 'admin/top.html'%}
+  
+  <!-- 左侧内容 -->
+  <div class="layui-side layui-bg-black">
+
+ 
+    <div class="layui-side-scroll">
+      <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+      <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+        <li class="layui-nav-item layui-nav-itemed">
+          <a class="" href="javascript:;">添加产品</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">添加产品</a></dd>
+            <dd><a href="javascript:;">添加产品</a></dd>
+            <dd><a href="javascript:;">添加产品</a></dd>
+            <dd><a href="">添加产品</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item">
+          <a href="javascript:;">添加产品</a>
+          <dl class="layui-nav-child">
+            <dd><a href="javascript:;">列表一</a></dd>
+            <dd><a href="javascript:;">添加产品</a></dd>
+            <dd><a href="">超链接</a></dd>
+          </dl>
+        </li>
+        <li class="layui-nav-item"><a href="">云市场</a></li>
+        <li class="layui-nav-item"><a href="">发布商品</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;">
+
+      {%include 'admin/message.html'%} 
+   
+
+   <form action="" method="post">
+     
+ {{ form.hidden_tag() }}
+
+      <div class="layui-form-item">
+        {{ form.name.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.name() }} 
+        </div>
+      </div>
+
+
+      <div class="layui-form-item">
+        {{ form.price.label(class_="layui-form-label") }} 
+        <div class="layui-input-block">
+          {{ form.price() }} 
+        </div>
+      </div>
+
+这里还有
+产品介绍
+折扣价
+产品图片
+    
+<input type="submit" name="submit" class="layui-btn layui-btn-fluid">
+
+   </form>
+
+
+    </div>
+  </div>
+  
+  {%include 'admin/footer.html'%}
+  
+
+
+
+
+{% endblock %}
+
+
+

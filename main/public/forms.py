@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 """Public forms."""
 from flask_wtf import FlaskForm
-from wtforms import PasswordField, StringField
+from wtforms import PasswordField, StringField,SelectField
 
 from wtforms.validators import DataRequired, Email, EqualTo, Length,Required
 
 from main.user.models import User
 
 from flask import session
+from sqlalchemy import or_
+from main.admin.models import Products
 
 
 class LoginForm(FlaskForm):
@@ -36,8 +38,9 @@ class LoginForm(FlaskForm):
         except Exception as e:
             self.verification_code.errors.append(u'输入不错误')
             return False
-
-        self.user = User.query.filter_by(username=self.username.data).first()
+        print(self.username.data)
+        self.user = User.query.filter(or_(User.username==self.username.data,User.phone==self.username.data)).first()
+        print(self.user)
         if not self.user:
             self.username.errors.append('没有该用户')
             return False
@@ -50,6 +53,45 @@ class LoginForm(FlaskForm):
             self.username.errors.append('该用户没有激活')
             return False
         return True
+
+
+
+class RegisterForm(FlaskForm):
+    """Register form."""
+
+    user = StringField('手机号码',
+                           validators=[DataRequired(), Length(min=3, max=25)],render_kw={'class':"layui-input",'placeholder':"请输入您的手机号码"})
+    password = PasswordField('密码',
+                             validators=[DataRequired(), Length(min=6, max=40)],render_kw={'class':"layui-input",'placeholder':"请输入您的密码"})
+    confirm = PasswordField('确认密码',
+                            [DataRequired(), EqualTo('password', message='密码不匹配')],render_kw={'class':"layui-input",'placeholder':"请再次输入您的密码"})
+
+    tuijianren = StringField('推荐人',
+                           validators=[DataRequired(), Length(min=3, max=25)],render_kw={'class':"layui-input",'placeholder':"请输入推荐人的手机号码"})
+    baodan = StringField('报单中心',
+                           validators=[DataRequired(), Length(min=3, max=25)],render_kw={'class':"layui-input",'placeholder':"请输入报单中心的手机号码"})
+    products = SelectField(u'产品列表',coerce=int,validators=[DataRequired(message=u'请选择正确的产品')],render_kw={'class':"layui-input"})
+
+
+    def __init__(self, *args, **kwargs):
+        """Create instance."""
+        super(RegisterForm, self).__init__(*args, **kwargs)
+        self.products.choices = [(obj.id,[obj.price,obj.name]) for obj in Products.query.order_by('id').all()]
+    
+        
+
+    def validate(self):
+        """Validate the form."""
+        initial_validation = super(RegisterForm, self).validate()
+        if not initial_validation:
+            return False
+        user = User.query.filter_by(phone=self.user.data).first()
+        if user:
+            self.user.errors.append('该手机号码已经存在')
+            return False
+        return True
+
+
 
 
 """

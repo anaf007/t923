@@ -20,70 +20,63 @@ class Role(SurrogatePK,Model):
     __tablename__ = 'roles'
 
     name = db.Column(db.String(80), unique=True, nullable=False)
-    # user_id = reference_col('users', nullable=True)
-    # user = relationship('User', backref='roles')
-    # parents = db.relationship(
-    #     'Role',
-    #     secondary='roles_parents',
-    #     primaryjoin=('id == roles_parents.c.role_id'),
-    #     secondaryjoin=('id == roles_parents.c.parent_id'),
-    #     backref=db.backref('children', lazy='dynamic'),
-    # )
 
     def __init__(self, name, **kwargs):
         """Create instance."""
         db.Model.__init__(self, name=name, **kwargs)
 
-    # def __init__(self, name):
-    #     RoleMixin.__init__(self)
-    #     self.name = name
+
+class Recommend(Model):
+    """用户推荐表."""
+    __tablename__ = 'recommend'
+    #推荐人
+        # recommend_id = reference_col('users.id')
+        # #被推荐人
+        # recommender_id = reference_col('users.id')
+    timestamp = db.Column(db.DateTime, default=dt.datetime.now)
+    #被推荐人
+    recommender_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+        primary_key=True)
+    #推荐人
+    recommends_id = db.Column(db.Integer, db.ForeignKey('users.id'),
+        primary_key=True)
 
 
-    # def __repr__(self):
-    #     """Represent instance as a unique string."""
-    #     return '<Role({name})>'.format(name=self.name)
 
-    # def add_parent(self, parent):
-    #     # You don't need to add this role to parent's children set,
-    #     # relationship between roles would do this work automatically
-    #     self.parents.append(parent)
-
-    # def add_parents(self, *parents):
-    #     for parent in parents:
-    #         self.add_parent(parent)
-
-    # @staticmethod
-    # def get_by_name(name):
-    #     return Role.filter_by(name=name).first()
-
-
-# anonymous = Role('anonymous')
-# rbac.set_role_model(Role)
-
-
-# @rbac.as_user_model
 class User(UserMixin, SurrogatePK, Model):
-    """A user of the app."""
-
+    """用户表."""
     __tablename__ = 'users'
 
     username = Column(db.String(80), unique=True, nullable=False)
-    # email = Column(db.String(80), unique=True)
     #: The hashed password
     password = Column(db.Binary(128), nullable=True)
-    created_at = Column(db.DateTime, nullable=False, default=dt.datetime.utcnow)
+    created_at = Column(db.DateTime, nullable=False, default=dt.datetime.now)
     first_name = Column(db.String(30))
     last_name = Column(db.String(30))
     active = Column(db.Boolean(), default=False)
+    #激活时间
+    active_at = Column(db.DateTime, nullable=False, default=dt.datetime.now)
     is_admin = Column(db.Boolean(), default=False)
-    #报单中心
+    #是否报单中心
     is_center = Column(db.Boolean(), default=False)
+    #手机号码唯一 可用于登录
+    phone = Column(db.String(30),unique=True)
 
-    # roles = db.relationship(
-    #     'Role',
-    #     secondary='users_roles',
-    #     backref=db.backref('roles', lazy='dynamic')
-    # )
+    buys_id = relationship('ProductsBuys', backref='user')
+
+    #:引用自身,保单中心
+    parent_center = reference_col('users')
+    children_center = relationship("User",join_depth=2,lazy="joined",post_update=True)
+
+    #推荐人
+    recommends = db.relationship('Recommend',
+        foreign_keys=[Recommend.recommender_id],
+        backref=db.backref('recommender', lazy='joined'),
+        lazy='dynamic',cascade='all, delete-orphan')
+    recommender = db.relationship('Recommend',
+        foreign_keys=[Recommend.recommends_id],
+        backref=db.backref('recommends', lazy='joined'),
+        lazy='dynamic',cascade='all, delete-orphan')
 
     def __init__(self, username, password=None, **kwargs):
         """Create instance."""
@@ -128,6 +121,10 @@ class User(UserMixin, SurrogatePK, Model):
     def init_insert():
         User.create(username='admin', password='a0000000', active=True)
         
+
+
+
+
 
 
 # a_user = User()

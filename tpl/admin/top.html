@@ -2,19 +2,70 @@
     <div class="layui-logo">管理员后台</div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
-      <li class="layui-nav-item"><a href="{{url_for('admin.home')}}">模板管理</a></li>
       
-      <li class="layui-nav-item"><a href="#">控制台</a></li>
-      <li class="layui-nav-item"><a href="#">商品管理</a></li>
-      <li class="layui-nav-item"><a href="{{url_for('admin.web_site')}}">用户</a></li>
+      <li class="layui-nav-item"><a href="{{url_for('admin.home')}}">后台主页</a></li>
+
+
+      <li class="layui-nav-item">
+        <a href="javascript:;">购物商城</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{url_for('admin.add_products')}}">上传商品</a></dd>
+          <dd><a href="{{url_for('admin.add_products')}}">所有商品</a></dd>
+          <dd><a href="{{url_for('admin.add_products')}}">订单管理</a></dd>
+          <!-- <dd><a href="{{url_for('admin.web_site')}}">添加新版本</a></dd> -->
+          <!-- <dd><a href="">授权管理</a></dd> -->
+        </dl>
+      </li>
+
+      <li class="layui-nav-item">
+        <a href="javascript:;">会员管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{url_for('public.add_users')}}">添加初始会员</a></dd>
+          <dd><a href="{{url_for('public.add_users')}}">待激活会员列表</a></dd>
+          <dd><a href="{{url_for('public.add_users')}}">已激活会员列表</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">被冻结会员列表</a></dd>
+          <!-- <dd><a href="{{url_for('admin.web_site')}}">添加新版本</a></dd> -->
+          <!-- <dd><a href="">授权管理</a></dd> -->
+        </dl>
+      </li>
+
+      <li class="layui-nav-item">
+        <a href="javascript:;">财务管理</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{url_for('public.add_users')}}">派送金币</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">会员派送明细</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">会员提现管理</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">会员充值管理</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">会员奖金明细</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">会员账户明细</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">会员转账记录</a></dd>
+          <dd><a href="{{url_for('admin.all_users')}}">拔出率统计</a></dd>
+          <!-- <dd><a href="{{url_for('admin.web_site')}}">添加新版本</a></dd> -->
+          <!-- <dd><a href="">授权管理</a></dd> -->
+        </dl>
+      </li>
+
+
+      </li>
       <li class="layui-nav-item">
         <a href="javascript:;">系统相关</a>
+        <dl class="layui-nav-child">
+          <dd><a href="{{url_for('admin.web_site')}}">系统运行设置</a></dd>
+          <dd><a href="{{url_for('admin.web_site')}}">添加新版本</a></dd>
+          <dd><a href="">授权管理</a></dd>
+          <dd><a href="">数据库备份与恢复</a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">管理员管理</a>
         <dl class="layui-nav-child">
           <dd><a href="{{url_for('admin.web_site')}}">站点管理</a></dd>
           <dd><a href="{{url_for('admin.web_site')}}">添加新版本</a></dd>
           <dd><a href="">授权管理</a></dd>
         </dl>
       </li>
+
+
     </ul>
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item">
@@ -25,6 +76,7 @@
         <dl class="layui-nav-child">
           <dd><a href="">基本资料</a></dd>
           <dd><a href="">安全设置</a></dd>
+          <dd><a href="">修改密码</a></dd>
         </dl>
       </li>
       <li class="layui-nav-item"><a href="{{url_for('public.logout')}}">退了</a></li>

@@ -1,0 +1,89 @@
+{% import "bootstrap/wtf.html" as wtf %} 
+{% extends "admin/bases.html" %}
+{% block title %}所有用户{% endblock %}
+{% block body %}
+
+
+
+{%include 'admin/top.html'%}
+  
+  <!-- 左侧内容 -->
+  <div class="layui-side layui-bg-black">
+
+ 
+    {%include 'admin/left_user.html'%}
+
+
+  </div>
+  
+  <div class="layui-body">
+    <!-- 内容主体区域 -->
+    <div style="padding: 15px;padding-top: 0px;">
+
+      {%include 'admin/message.html'%} 
+   
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+  <legend>所有用户</legend>
+</fieldset>  
+
+<table class="layui-table" lay-skin="line">
+  <colgroup>
+    <col width="100">
+    <col width="100">
+    <col width="80">
+    <col width="100">
+    <col width="80">
+    <col width="100">
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>手机号</th>
+      <th>创建时间</th>
+      <th>是否激活</th>
+      <th>激活时间</th>
+      <th>报单中心</th>
+      <th>操作</th>
+    </tr> 
+  </thead>
+  <tbody>
+
+    {%for i in users%}
+    <tr>
+      <td>{{i.phone}}</td>
+      <td>{{i.created_at}}</td>
+      <td>{%if i.active%}已激活{%else%}未激活{%endif%}</td>
+      <td>{%if i.active%}{{i.active_at}}{%endif%}</td>
+      <td>{%if i.is_center%}是{%else%}否{%endif%}</td>
+      <td><a href="" class="layui-btn">查看</a>&nbsp;<a href="" class="layui-btn layui-btn-normal">激活</a></td>
+    </tr>
+    {%endfor%}
+    
+  </tbody>
+</table>  
+
+<div class="layui-btn-group">
+  <button class="layui-btn layui-btn-sm">
+    <i class="layui-icon">&lt;</i>
+  </button>
+  <button class="layui-btn layui-btn-sm">
+    <i class="layui-icon">1</i>
+  </button>
+  <button class="layui-btn layui-btn-sm">
+    <i class="layui-icon">2</i>
+  </button>
+  <button class="layui-btn layui-btn-sm">
+    <i class="layui-icon">&gt;</i>
+  </button>
+</div>
+
+
+    </div>
+  </div>
+  
+  {%include 'admin/footer.html'%}
+  
+{% endblock %}
+
+
+

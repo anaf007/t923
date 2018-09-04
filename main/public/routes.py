@@ -7,9 +7,14 @@ url(bp,'/', 'home')
 #logout
 url(bp,'/logout/','logout')
 #register
-url(bp,'/register/','register',methods=['GET', 'POST'])
+url(bp,'/add_users/','add_users',methods=['GET', 'POST'])
 #about
 url(bp,'/about/','about')
 #login
 url(bp,'/login/','login',methods=['GET', 'POST'])
+
+
+#图表测试
+url(bp,'/home_json','home_json')
+
 
