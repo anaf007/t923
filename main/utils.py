@@ -10,3 +10,4 @@ def flash_errors(form, category='warning'):
             flash('{0} - {1}'.format(getattr(form, field).label.text, error), category)
 
 
+

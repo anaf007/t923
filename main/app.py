@@ -2,7 +2,7 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from main import commands, public, user, admin
+from main import commands, public, user, admin, member
 from main.extensions import bcrypt, cache, csrf_protect, db, \
     debug_toolbar, login_manager, migrate, redis_store, principal,bootstrap
 from main.settings import ProdConfig
@@ -49,6 +49,7 @@ def register_blueprints(app):
     app.register_blueprint(public.bp)
     app.register_blueprint(user.views.blueprint)
     app.register_blueprint(admin.bp)
+    app.register_blueprint(member.bp)
 
     app.register_blueprint(sse, url_prefix='/stream')
 
@@ -73,8 +74,7 @@ def register_shellcontext(app):
         """Shell context objects."""
         return {
             'db': db,
-            'User': user.models.User,
-            'sysconfig': admin.models.SysConfig,
+            'User': models.users.User,
             }
 
     app.shell_context_processor(shell_context)

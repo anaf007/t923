@@ -5,19 +5,19 @@ from wtforms import PasswordField, StringField,SelectField
 
 from wtforms.validators import DataRequired, Email, EqualTo, Length,Required
 
-from main.user.models import User
+from main.models.users import User
 
 from flask import session
 from sqlalchemy import or_
-from main.admin.models import Products
+from main.models.products import Product
 
 
 class LoginForm(FlaskForm):
     """Login form."""
 
-    username = StringField('用户名', validators=[DataRequired()])
-    password = PasswordField('密码', validators=[DataRequired()])
-    verification_code = StringField('验证码', validators=[DataRequired(), Length(4, 4, message=u'填写4位验证码')],render_kw={'style':'width:100px;'})
+    username = StringField(u'用户名', validators=[DataRequired()])
+    password = PasswordField(u'密码', validators=[DataRequired()])
+    verification_code = StringField(u'验证码', validators=[DataRequired(), Length(4, 4, message=u'填写4位验证码')],render_kw={'style':'width:100px;'})
 
 
     def __init__(self, *args, **kwargs):

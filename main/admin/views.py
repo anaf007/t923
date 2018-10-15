@@ -11,8 +11,8 @@ from . import bp
 from main.decorators import admin_required
 
 from .forms import ProductsForm
-from .models import Products
-from main.user.models import User
+from ..models.products import Product
+from main.models.users import User
 
 
 @admin_required
@@ -56,7 +56,7 @@ def add_products():
     form = ProductsForm(request.form)
     if request.method == 'POST':
         if form.validate_on_submit():
-            Products.create(
+            Product.create(
                 name = form.name.data,
                 price = form.price.data,
             )
@@ -67,10 +67,4 @@ def add_products():
     return dict(form=form)
 
 
-@admin_required
-@templated()
-def all_users():
-    users=User.query.order_by('id').all()
-    print(users)
-    return dict(users=users)
 

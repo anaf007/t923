@@ -7,13 +7,12 @@ from datetime import timedelta,datetime
 from main.extensions import redis_store
 from flask_sse import sse
 
-from urllib.parse import urljoin
-from urllib import parse
+# from urllib.parse import urljoin
+# from urllib import parse
 # from urlparse import urlparse, urljoin
 import time
 
 
-#延迟加载视图
 class LazyView(object):
 
     def __init__(self, import_name):
@@ -34,7 +33,6 @@ def url(bp,url_rule, import_name, **options):
 
 
 
-#模板装饰器
 def templated(template=None):
     def decorator(f):
         @wraps(f)
@@ -89,24 +87,24 @@ def get_online_users():
 Securely Redirect Back
 """
 
-def is_safe_url(target):
-    ref_url = parse(request.host_url)
-    test_url = parse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and \
-           ref_url.netloc == test_url.netloc
+# def is_safe_url(target):
+#     ref_url = parse(request.host_url)
+#     test_url = parse(urljoin(request.host_url, target))
+#     return test_url.scheme in ('http', 'https') and \
+#            ref_url.netloc == test_url.netloc
 
-def get_redirect_target():
-    for target in request.values.get('next'), request.referrer:
-        if not target:
-            continue
-        if is_safe_url(target):
-            return target  
+# def get_redirect_target():
+#     for target in request.values.get('next'), request.referrer:
+#         if not target:
+#             continue
+#         if is_safe_url(target):
+#             return target  
 
-def redirect_back(endpoint, **values):
-    target = request.form['next']
-    if not target or not is_safe_url(target):
-        target = url_for(endpoint, **values)
-    return redirect(target)
+# def redirect_back(endpoint, **values):
+#     target = request.form['next']
+#     if not target or not is_safe_url(target):
+#         target = url_for(endpoint, **values)
+#     return redirect(target)
 
 """
     return redirect_back('index')

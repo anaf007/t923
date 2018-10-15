@@ -8,7 +8,7 @@ class Config(object):
 
     # import os
     # os.urandom(24)
-    SECRET_KEY = os.environ.get('MAIN_SECRET', 'secret-key')  or 'string1313'
+    SECRET_KEY = os.environ.get('T923_SECRET', 'secret-key')  or 'string1313'
 
     APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
     PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))

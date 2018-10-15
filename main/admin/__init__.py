@@ -8,7 +8,7 @@ import psutil
 
 bp = Blueprint('admin', __name__,url_prefix='/admin')
 
-from . import routes,views,models
+from . import routes,views
 
 
 

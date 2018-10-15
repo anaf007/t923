@@ -3,7 +3,8 @@ from flask_wtf import Form
 from flask_wtf import FlaskForm
 # from wtforms.ext.appengine.db import model_form
 from wtforms import validators
-from .models import SysConfig,Products
+from ..models.sysparam import SysParam
+from ..models.products import Product
 from wtforms.ext.sqlalchemy.orm import model_form
 from wtforms import PasswordField, StringField,SelectField
 from wtforms.validators import DataRequired
@@ -11,7 +12,7 @@ from wtforms.validators import DataRequired
 """http://flask.pocoo.org/snippets/60/
 Automatically create a WTForms Form from model
 """
-SysConfigForm = model_form(SysConfig, base_class=Form)
+SysConfigForm = model_form(SysParam, base_class=Form)
 
 
 class ProductsForm(FlaskForm):
