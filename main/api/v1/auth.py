@@ -2,7 +2,7 @@ from flask import request
 
 
 
-class Login(Resource):
+class Login(Resource=''):
     """用户登录."""
     def put(self):
 

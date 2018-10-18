@@ -9,6 +9,7 @@ from main.extensions import bcrypt
 import datetime
 
 from main.models.recommend import Recommend
+from main.models.buys_car import BuysCar
 
 
 class User(UserMixin, SurrogatePK, Model):
@@ -31,6 +32,7 @@ class User(UserMixin, SurrogatePK, Model):
      - children_center：引用自身
      - recommends：引用推荐表
      - recommender：外键引用推荐人表
+     - buys_car_id:外键购物车
 
     """
     __tablename__ = 'users'
@@ -45,11 +47,10 @@ class User(UserMixin, SurrogatePK, Model):
     is_center = Column(db.Boolean(), default=False)
     phone = Column(db.String(30),unique=True)
 
-    buys_id = relationship('Order', backref='user')
-
     parent_center = reference_col('users')
-    children_center = relationship("User",join_depth=2,lazy="joined",post_update=True)
 
+    buys_id = relationship('Order', backref='user')
+    children_center = relationship("User",join_depth=2,lazy="joined",post_update=True)
     recommends = db.relationship('Recommend',
         foreign_keys=[Recommend.recommender_id],
         backref=db.backref('recommender', lazy='joined'),
@@ -58,6 +59,7 @@ class User(UserMixin, SurrogatePK, Model):
         foreign_keys=[Recommend.recommends_id],
         backref=db.backref('recommends', lazy='joined'),
         lazy='dynamic',cascade='all, delete-orphan')
+    buys_car_id = relationship(BuysCar, backref='users')
 
     def __init__(self, username, password=None, **kwargs):
         """Create instance."""

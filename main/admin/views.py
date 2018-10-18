@@ -67,4 +67,8 @@ def add_products():
     return dict(form=form)
 
 
+@admin_required
+@templated()
+def all_products():
+    return dict()
 

@@ -15,7 +15,6 @@ from log import logger
 import simplejson as json
 
 
-@login_required
 @templated()
 def home():
     """Home page."""

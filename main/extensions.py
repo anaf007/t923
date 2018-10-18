@@ -13,6 +13,8 @@ from concurrent.futures import ThreadPoolExecutor
 # from flask_rbac import RBAC
 from flask_principal import Principal
 from flask_bootstrap import Bootstrap
+# from flask_restful import Api
+from flask_restless import APIManager
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -26,6 +28,8 @@ executor = ThreadPoolExecutor(2)
 # rbac = RBAC()
 principal = Principal()
 bootstrap = Bootstrap()
+# api = Api(decorators=[csrf_protect.exempt])
+apiManager = APIManager(flask_sqlalchemy_db=db)
 
 login_manager.session_protection = 'basic'
 
