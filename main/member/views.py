@@ -38,7 +38,6 @@ def add_users():
                 flash('已注册失败.报单中心不存在，请填写正确的手机号。', 'danger')
                 return dict(form=form)
 
-            print(baodan)
 
             product = Products.query.get_or_404(int(form.products.data))
             user =User.create(

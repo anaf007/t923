@@ -17,6 +17,8 @@ class Config(object):
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    WTF_CSRF_CHECK_DEFAULT = False
     
     #api返回中文
     JSON_AS_ASCII = False

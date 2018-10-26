@@ -6,7 +6,9 @@ from main import commands, public, user, admin, member
 from main.extensions import bcrypt, cache, csrf_protect, db, \
     debug_toolbar, login_manager, migrate, redis_store, principal,bootstrap, apiManager
 from main.settings import ProdConfig
-from main import models
+# from main import models
+
+from main.models.users import User
 
 from flask_sse import sse
 
@@ -23,8 +25,9 @@ def create_app(config_object=ProdConfig):
     register_errorhandlers(app)
     register_shellcontext(app)
     register_commands(app)
+    
 
-    from main.api import product
+    # from main import api
 
 
     return app
@@ -34,12 +37,15 @@ def register_extensions(app):
     """Register Flask extensions."""
     bcrypt.init_app(app)
     cache.init_app(app)
+    db.app = app
     db.init_app(app)
     csrf_protect.init_app(app)
     login_manager.init_app(app)
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
     redis_store.init_app(app)
+    # db.app = app
+    register_api_blueprints(app)
     apiManager.init_app(app)
     # rbac.init_app(app)
     principal.init_app(app)
@@ -58,6 +64,11 @@ def register_blueprints(app):
 
     return None
 
+def register_api_blueprints(app):
+    """Register apiManager blueprints. """   
+    apiManager.create_api(User,methods=['GET', 'POST', 'DELETE'],primary_key='id')
+    # app.register_blueprint(blueprint) 
+
 
 def register_errorhandlers(app):
     """Register error handlers."""
@@ -75,10 +86,7 @@ def register_shellcontext(app):
     """Register shell context objects."""
     def shell_context():
         """Shell context objects."""
-        return {
-            'db': db,
-            'User': models.users.User,
-            }
+        return {'db': db}
 
     app.shell_context_processor(shell_context)
 

@@ -65,18 +65,20 @@ class RegisterForm(FlaskForm):
                              validators=[DataRequired(), Length(min=6, max=40)],render_kw={'class':"layui-input",'placeholder':"请输入您的密码"})
     confirm = PasswordField('确认密码',
                             [DataRequired(), EqualTo('password', message='密码不匹配')],render_kw={'class':"layui-input",'placeholder':"请再次输入您的密码"})
-
+    password_two = PasswordField('密码',
+                             validators=[DataRequired(), Length(min=6, max=40)],render_kw={'class':"layui-input",'placeholder':"请输入您的密码"})
+    
     tuijianren = StringField('推荐人',
                            validators=[DataRequired(), Length(min=3, max=25)],render_kw={'class':"layui-input",'placeholder':"请输入推荐人的手机号码"})
     baodan = StringField('报单中心',
                            validators=[DataRequired(), Length(min=3, max=25)],render_kw={'class':"layui-input",'placeholder':"请输入报单中心的手机号码"})
-    products = SelectField(u'产品列表',coerce=int,validators=[DataRequired(message=u'请选择正确的产品')],render_kw={'class':"layui-input"})
+    # products = SelectField(u'产品列表',coerce=int,validators=[DataRequired(message=u'请选择正确的产品')],render_kw={'class':"layui-input"})
 
 
     def __init__(self, *args, **kwargs):
         """Create instance."""
         super(RegisterForm, self).__init__(*args, **kwargs)
-        self.products.choices = [(obj.id,[obj.price,obj.name]) for obj in Products.query.order_by('id').all()]
+        # self.products.choices = [(obj.id,[obj.price,obj.name]) for obj in Product.query.order_by('id').all()]
     
         
 

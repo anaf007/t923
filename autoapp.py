@@ -9,6 +9,6 @@ CONFIG = DevConfig if get_debug_flag() else ProdConfig
 
 app = create_app(CONFIG)
 
+# app.app_context().push()
 
-app.app_context().push()
-    
+

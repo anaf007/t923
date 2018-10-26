@@ -28,7 +28,7 @@ class User(UserMixin, SurrogatePK, Model):
      - is_center：是否报单中心
      - phone：手机号，用于登录等
      - buys_id：外键引用 产品购买表
-     - parent_center：引用自身
+     - parent_center：引用自身 上级
      - children_center：引用自身
      - recommends：引用推荐表
      - recommender：外键引用推荐人表
@@ -93,7 +93,7 @@ class User(UserMixin, SurrogatePK, Model):
 
 
     def init_insert():
-        User.create(username='admin', password='a0000000', active=True)
+        User.create(username='admin', password='aaaaaaaa', active=True)
 
         
     def generate_auth_token(self, expiration = 600):

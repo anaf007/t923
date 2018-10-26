@@ -29,7 +29,7 @@ executor = ThreadPoolExecutor(2)
 principal = Principal()
 bootstrap = Bootstrap()
 # api = Api(decorators=[csrf_protect.exempt])
-apiManager = APIManager(flask_sqlalchemy_db=db)
+apiManager = APIManager(flask_sqlalchemy_db=db,decorators=[csrf_protect.exempt])
 
 login_manager.session_protection = 'basic'
 
