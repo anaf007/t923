@@ -8,8 +8,8 @@ from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_sse import sse
-from flask_redis import FlaskRedis
-from concurrent.futures import ThreadPoolExecutor
+# from flask_redis import FlaskRedis
+
 # from flask_rbac import RBAC
 from flask_principal import Principal
 from flask_bootstrap import Bootstrap
@@ -23,8 +23,8 @@ db = SQLAlchemy()
 migrate = Migrate()
 cache = Cache()
 debug_toolbar = DebugToolbarExtension()
-redis_store = FlaskRedis()
-executor = ThreadPoolExecutor(2)
+# redis_store = FlaskRedis()
+
 # rbac = RBAC()
 principal = Principal()
 bootstrap = Bootstrap()
@@ -34,6 +34,6 @@ apiManager = APIManager(flask_sqlalchemy_db=db,decorators=[csrf_protect.exempt])
 login_manager.session_protection = 'basic'
 
 #自动注册
-login_manager.login_view = 'public.login'
+login_manager.login_view = 'auth.login'
 login_manager.login_message = "请登录后访问该页面."
-login_manager.refresh_view = 'public.login'
+login_manager.refresh_view = 'auth.login'

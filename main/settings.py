@@ -1,71 +1,49 @@
 # -*- coding: utf-8 -*-
-"""Application configuration."""
-import os
+"""Application configuration.
+
+Most configuration is set via environment variables.
+
+For local development, use a .env file to set
+environment variables.
+"""
+from environs import Env
 from datetime import timedelta
 
-class Config(object):
-    """Base configuration."""
+env = Env()
+env.read_env()
 
-    # import os
-    # os.urandom(24)
-    SECRET_KEY = os.environ.get('T923_SECRET', 'secret-key')  or 'string1313'
+ENV = env.str('FLASK_ENV', default='production')
+DEBUG = ENV == 'development'
+SQLALCHEMY_DATABASE_URI = env.str('DATABASE_URL')
+# import os
+# os.urandom(24)
+SECRET_KEY = env.str('SECRET_KEY')
+BCRYPT_LOG_ROUNDS = env.int('BCRYPT_LOG_ROUNDS', default=13)
+DEBUG_TB_ENABLED = DEBUG
+DEBUG_TB_INTERCEPT_REDIRECTS = False
+CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+WEBPACK_MANIFEST_PATH = 'webpack/manifest.json'
 
-    APP_DIR = os.path.abspath(os.path.dirname(__file__))  # This directory
-    PROJECT_ROOT = os.path.abspath(os.path.join(APP_DIR, os.pardir))
-    BCRYPT_LOG_ROUNDS = 13
-    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
-    DEBUG_TB_INTERCEPT_REDIRECTS = False
-    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
-
-    WTF_CSRF_CHECK_DEFAULT = False
-    
-    #api返回中文
-    JSON_AS_ASCII = False
-
-    #回话超时登出 分钟
-    PERMANENT_SESSION_LIFETIME = timedelta(minutes=100)
-
-    #redis配置
-    REDIS_URL = 'redis://:@localhost:6379'
-    #在线时间
-    ONLINE_LAST_MINUTES = 10
-
-    #验证码
-    VERIFICATION_CODE_FONT = os.environ.get('CN_CMS_VERIFICATION_CODE_FONT') or 'Arial.ttf'
-
-
-    RBAC_USE_WHITE = True
+WTF_CSRF_CHECK_DEFAULT = False
 
 
 
-class ProdConfig(Config):
-    """Production configuration."""
+#api返回中文
+JSON_AS_ASCII = False
 
-    ENV = 'prod'
-    DEBUG = False
-    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/example'  # TODO: Change me
-    DEBUG_TB_ENABLED = False  # Disable Debug toolbar
+#回话超时登出 分钟
+PERMANENT_SESSION_LIFETIME = timedelta(minutes=100)
 
+#redis配置
+REDIS_URL = 'redis://:@localhost:6379'
+#在线时间
+ONLINE_LAST_MINUTES = 10
 
-class DevConfig(Config):
-    """Development configuration."""
+#验证码
+# VERIFICATION_CODE_FONT = os.environ.get('VERIFICATION_CODE_FONT') or 'Arial.ttf'
+VERIFICATION_CODE_FONT = 'C:\\Windows\\Fonts\\arial.ttf'
 
-    ENV = 'dev'
-    DEBUG = True
-    DB_NAME = 't923'
-    # Put the db file in project root
-    DB_PATH = os.path.join(Config.PROJECT_ROOT, DB_NAME)
-    SQLALCHEMY_DATABASE_URI = 'mysql://root:an090987@127.0.0.1:3306/t923'
-    DEBUG_TB_ENABLED = True
-    CACHE_TYPE = 'simple'  # Can be "memcached", "redis", etc.
+RBAC_USE_WHITE = True
 
 
-class TestConfig(Config):
-    """Test configuration."""
-
-    TESTING = True
-    DEBUG = True
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
-    BCRYPT_LOG_ROUNDS = 4  # For faster tests; needs at least 4 to avoid "ValueError: Invalid rounds"
-    WTF_CSRF_ENABLED = False  # Allows form testing

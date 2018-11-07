@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>提交订单</title>
+</head>
+<body>
+    {%for i in car%}
+    {{i[2]}},数量：{{i[1]}},单价：{{i[3]}} <br>
+    {%endfor%}
+    <form action="" method="post"> 
+            {{form.hidden_tag()}}
+            <div class="log">
+                <div class="name">
+                    {{form.name.label}}
+                    {{form.name(placeholder="1", class_="text")}}
+                </div>
+
+                <div class="phone">
+                    {{form.phone.label}}
+                    {{form.phone(placeholder="2", class_="text")}}
+                </div>
+
+                <div class="address">
+                    {{form.address.label}}
+                    {{form.address(placeholder="3", class_="text")}}
+                </div>
+
+
+                <div class="submit">
+                  
+                    <input type="submit" class="submit" tabindex="4" value="提交订单">
+                    <div class="check"></div>
+                </div>
+
+
+                <div class="tip"></div>
+            </div>
+
+            </form>
+</body>
+</html>

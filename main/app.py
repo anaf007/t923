@@ -2,18 +2,20 @@
 """The app module, containing the app factory function."""
 from flask import Flask, render_template
 
-from main import commands, public, user, admin, member
+from main import commands, views
 from main.extensions import bcrypt, cache, csrf_protect, db, \
-    debug_toolbar, login_manager, migrate, redis_store, principal,bootstrap, apiManager
-from main.settings import ProdConfig
+    debug_toolbar, login_manager, migrate, principal,bootstrap, apiManager
+# from main.settings import ProdConfig
 # from main import models
 
 from main.models.users import User
 
-from flask_sse import sse
 
 
-def create_app(config_object=ProdConfig):
+from .blueprints import register_blueprints
+
+
+def create_app(config_object='main.settings'):
     """An application factory, as explained here: http://flask.pocoo.org/docs/patterns/appfactories/.
 
     :param config_object: The configuration object to use.
@@ -43,7 +45,7 @@ def register_extensions(app):
     login_manager.init_app(app)
     debug_toolbar.init_app(app)
     migrate.init_app(app, db)
-    redis_store.init_app(app)
+    # redis_store.init_app(app)
     # db.app = app
     register_api_blueprints(app)
     apiManager.init_app(app)
@@ -53,16 +55,7 @@ def register_extensions(app):
     return None
 
 
-def register_blueprints(app):
-    """Register Flask blueprints."""
-    app.register_blueprint(public.bp)
-    app.register_blueprint(user.views.blueprint)
-    app.register_blueprint(admin.bp)
-    app.register_blueprint(member.bp)
 
-    app.register_blueprint(sse, url_prefix='/stream')
-
-    return None
 
 def register_api_blueprints(app):
     """Register apiManager blueprints. """   
@@ -97,6 +90,7 @@ def register_commands(app):
     app.cli.add_command(commands.lint)
     app.cli.add_command(commands.clean)
     app.cli.add_command(commands.urls)
+    app.cli.add_command(commands.init_databases)
 
 
 

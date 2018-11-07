@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>buys_car</title>
+</head>
+<body>
+    {%for i in car%}
+    {{i[2]}},数量：{{i[1]}},单价：{{i[3]}} <br>
+    {%endfor%}
+
+    <a href="{{url_for('user.submit_order')}}">结算</a>
+</body>
+</html>

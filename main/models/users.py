@@ -28,6 +28,8 @@ class User(UserMixin, SurrogatePK, Model):
      - is_center：是否报单中心
      - phone：手机号，用于登录等
      - buys_id：外键引用 产品购买表
+     - integral:积分
+     - coins:硬币
      - parent_center：引用自身 上级
      - children_center：引用自身
      - recommends：引用推荐表
@@ -46,6 +48,10 @@ class User(UserMixin, SurrogatePK, Model):
     is_admin = Column(db.Boolean(), default=False)
     is_center = Column(db.Boolean(), default=False)
     phone = Column(db.String(30),unique=True)
+
+
+    integral = Column(db.Integer(),default=0)
+    coins = Column(db.Integer(),default=0)
 
     parent_center = reference_col('users')
 
@@ -113,4 +119,8 @@ class User(UserMixin, SurrogatePK, Model):
         return user
         
 
+from . import login_manager
+@login_manager.user_loader
 
+def load_user(user_id):
+    return User.query.get(int(user_id))

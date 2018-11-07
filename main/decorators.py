@@ -2,7 +2,7 @@
 from functools import wraps
 from flask import abort, flash, redirect, url_for, request
 from flask_login import current_user
-from main.user.models  import Permission
+from main.models.roles  import Permission
 
 
 def permission_required(permission):
@@ -24,7 +24,7 @@ def admin_required(func):
         # if request.url_root != current_app.config['SUPERADMIN_WEB_URL']:
         #     abort(404)
         if not current_user.is_authenticated:
-            return redirect(url_for('public.login',next='/admin'))
+            return redirect(url_for('auth.login',next='/admin'))
         else:
             if not current_user.is_administrator():
                 abort(404)

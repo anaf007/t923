@@ -2,6 +2,11 @@
 from main.database import Column, Model, SurrogatePK, db, reference_col, relationship
 from main.extensions import bcrypt
 
+
+class Permission:
+    ADMINISTER = 0x8000  #管理员权限
+
+
 class Role(SurrogatePK,Model):
     """A role for a user."""
 

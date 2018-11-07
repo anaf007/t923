@@ -4,7 +4,7 @@ from werkzeug import import_string, cached_property
 from functools import wraps
 from flask import request,render_template,session,current_app,url_for
 from datetime import timedelta,datetime
-from main.extensions import redis_store
+# from main.extensions import redis_store
 from flask_sse import sse
 
 # from urllib.parse import urljoin
@@ -28,9 +28,8 @@ class LazyView(object):
 
 
 def url(bp,url_rule, import_name, **options):
-    view = LazyView('main.' + bp.name+'.views.'+ import_name)
+    view = LazyView('main.views.' + bp.name+'.'+ import_name)
     bp.add_url_rule(url_rule, view_func=view, **options)
-
 
 
 def templated(template=None):

@@ -5,7 +5,7 @@ from main.helpers import templated
 from main.utils import flash_errors
 from main.models.users import User
 from flask_login import login_required,current_user
-from main.public.forms import RegisterForm
+from main.forms.auth import RegisterForm
 from main.models.products import Product
 from main.models.users import User
 from main.models.recommend import Recommend

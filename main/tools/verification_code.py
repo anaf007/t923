@@ -1,55 +1,34 @@
-# -*- coding: utf-8 -*-
-"""The public module, including the homepage and user auth."""
-from flask import Blueprint,session,request,make_response,current_app
-from main.helpers import LazyView,mark_online,get_online_users
-from flask_sse import sse
-
-bp = Blueprint('public', __name__)
-
-from . import routes,views  # noqa
 
 import random,string
 from datetime import datetime
-try:
-    from PIL import Image,ImageDraw,ImageFont,ImageFilter
-except Exception as e:
-    import Image,ImageDraw,ImageFont,ImageFilter
-try:
-    from StringIO import StringIO
-except ImportError:
-    from io import BytesIO
-
-@bp.before_request
-def before_request():
-    #在线人数统计
-    mark_online(request.remote_addr)
-    #回话超时登出
-    # session.permanent = True
-
-    # sse.publish({"count": str(len(get_online_users()) if len(get_online_users()) > 0 else 0)}, type='online',channel='admin')
 
 
-# 随机字母:
+
+from ..views.public import bp as public_bp
+
+
 def rndChar():
+    """随机字母:"""
     str = ''
     for i in range(4):
         str += chr(random.randint(65, 90))
     return str
 
-# 随机颜色1:
+
 def rndColor():
+    """随机颜色1"""
     return (random.randint(64, 255), random.randint(64, 255), random.randint(64, 255))
 
-# 随机颜色2:
+
 def rndColor2():
+    """随机颜色2"""
     return (random.randint(32, 127), random.randint(32, 127), random.randint(32, 127))
 
 
-
-
-#验证码
-@bp.route('/generate_verification_code')
+@public_bp.route('/generate_verification_code')
 def generate_verification_code():
+    """验证码"""
+    
     output = BytesIO()
     width = 70
     height = 30

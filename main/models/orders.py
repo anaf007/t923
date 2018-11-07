@@ -14,8 +14,8 @@ class Order(SurrogatePK, Model):
      - consignee_adress:收货人地址
      - count:购买总数量
      - price：总金额
-     - pay_type:支付类型  
-     - buy_type:购买类型 
+     - pay_type:支付类型  注册激活、积分购买、等等
+     - buy_type:购买类型  商城购买、注册购买
      - state:订单状态 默认0
 
     """

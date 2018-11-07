@@ -32,7 +32,7 @@
                 <div class="pwd">
                 {{form.verification_code.label}}
                 {{form.verification_code(placeholder="请输入验证码", class_="text")}}
-                    <img src="{{url_for('public.generate_verification_code')}}" style="width: 120px;
+                    <img src="{{url_for('auth.generate_verification_code')}}" style="width: 120px;
                                 height: 30px;
                                 position: absolute;
                                 right:20px;" onclick="javascript:newgdcode(this,this.src);"alt='看不清点击刷新'>
