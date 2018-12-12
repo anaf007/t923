@@ -47,3 +47,4 @@ VERIFICATION_CODE_FONT = 'C:\\Windows\\Fonts\\arial.ttf'
 RBAC_USE_WHITE = True
 
 
+

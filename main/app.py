@@ -4,7 +4,7 @@ from flask import Flask, render_template
 
 from main import commands, views
 from main.extensions import bcrypt, cache, csrf_protect, db, \
-    debug_toolbar, login_manager, migrate, principal,bootstrap, apiManager
+    debug_toolbar, login_manager, migrate, bootstrap, apiManager, rbac
 # from main.settings import ProdConfig
 # from main import models
 
@@ -49,8 +49,8 @@ def register_extensions(app):
     # db.app = app
     register_api_blueprints(app)
     apiManager.init_app(app)
-    # rbac.init_app(app)
-    principal.init_app(app)
+    rbac.init_app(app)
+    # principal.init_app(app)
     bootstrap.init_app(app)
     return None
 

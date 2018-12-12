@@ -10,11 +10,12 @@ from flask_wtf.csrf import CSRFProtect
 from flask_sse import sse
 # from flask_redis import FlaskRedis
 
-# from flask_rbac import RBAC
-from flask_principal import Principal
+from flask_rbac import RBAC
+# from flask_principal import Principal
 from flask_bootstrap import Bootstrap
 # from flask_restful import Api
 from flask_restless import APIManager
+from flask_rbac import RBAC
 
 bcrypt = Bcrypt()
 csrf_protect = CSRFProtect()
@@ -25,11 +26,12 @@ cache = Cache()
 debug_toolbar = DebugToolbarExtension()
 # redis_store = FlaskRedis()
 
-# rbac = RBAC()
-principal = Principal()
+rbac = RBAC()
+# principal = Principal()
 bootstrap = Bootstrap()
 # api = Api(decorators=[csrf_protect.exempt])
 apiManager = APIManager(flask_sqlalchemy_db=db,decorators=[csrf_protect.exempt])
+
 
 login_manager.session_protection = 'basic'
 

@@ -9,13 +9,14 @@ from main.models.buys_car import BuysCar
 from main.models.products import Product
 from main.forms.orders import SubmitForm
 from main.plugins import executor
-from main.function.order import back_submit_order
+from main.extensions import rbac
+# from main.function.order import back_submit_order
 bp = Blueprint('user', __name__, url_prefix='/users', static_folder='../static')
 reg_url(bp)
 
 
+@rbac.deny(['logged_user'], methods=['GET', 'POST'])
 @templated()
-@login_required
 def home():
     """用户主页"""
     return dict()
@@ -46,8 +47,8 @@ def submit_order():
     if not request.method == 'POST':
         return dict(car=car,form=form)
 
-    if form.validate_on_submit():
-        executor.submit(back_submit_order,current_app._get_current_object(),args_list,db)
+    # if form.validate_on_submit():
+    #     executor.submit(back_submit_order,current_app._get_current_object(),args_list,db)
 
 
 

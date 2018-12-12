@@ -1,10 +1,11 @@
 #coding=utf-8
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import current_app
-from flask_login import UserMixin
+# from flask_login import UserMixin
+from flask_rbac import UserMixin
 
 from main.database import Column, Model, SurrogatePK, db, reference_col, relationship
-from main.extensions import bcrypt
+from main.extensions import bcrypt,rbac
 
 import datetime
 
@@ -12,7 +13,17 @@ from main.models.recommend import Recommend
 from main.models.buys_car import BuysCar
 
 
-class User(UserMixin, SurrogatePK, Model):
+
+users_roles = db.Table(
+    'users_roles',
+    db.Column('user_id', db.Integer, db.ForeignKey('users.id')),
+    db.Column('role_id', db.Integer, db.ForeignKey('roles.id'))
+)
+
+
+
+@rbac.as_user_model
+class User( SurrogatePK, Model,UserMixin):
     """用户表.
 
     表名称：users
@@ -67,6 +78,14 @@ class User(UserMixin, SurrogatePK, Model):
         lazy='dynamic',cascade='all, delete-orphan')
     buys_car_id = relationship(BuysCar, backref='users')
 
+    roles = db.relationship(
+        'Role',
+        secondary=users_roles,
+        backref=db.backref('roles', lazy='dynamic')
+    )
+
+
+
     def __init__(self, username, password=None, **kwargs):
         """Create instance."""
         db.Model.__init__(self, username=username,**kwargs)
@@ -117,6 +136,17 @@ class User(UserMixin, SurrogatePK, Model):
             return None # invalid token
         user = User.query.get(data['id'])
         return user
+
+    def add_role(self, role):
+        self.roles.append(role)
+
+    def add_roles(self, roles):
+        for role in roles:
+            self.add_role(role)
+
+    def get_roles(self):
+        for role in self.roles:
+            yield role
         
 
 from . import login_manager
@@ -124,3 +154,9 @@ from . import login_manager
 
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+
+
+
+
